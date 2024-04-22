@@ -3,11 +3,15 @@
 @section('title', $title)
 
 @section('content')
-    @foreach($categories as $category)
-        <div style="display:flex; justify-content:center; align-items:center">
-            <h2>{{ $category-> name }}</h2>
-          <div><a href="{{ route('categories.show', $category->id) }}">View</a></div>
-        </div>
-    @endforeach
+
+ <div class="bg-gray-100 p-4 pb-4 mb-5 rounded h-screen">
+  @foreach($categories as $category)
+         <a href="{{route('categories.show', ['id' => $category->id])}}" class="p-4 mb-4 bg-white rounded shadow flex justify-between">
+             <div>
+                 <h2 class="text-xl font-bold mb-2">{{ $category->name }}</h2>
+             </div>
+         </a>
+     @endforeach
+ </div>
 
 @endsection
