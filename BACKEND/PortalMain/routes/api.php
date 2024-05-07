@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\ArticalController;
 use \App\Http\Controllers\API\CategoryController;
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +16,19 @@ use \App\Http\Controllers\API\CategoryController;
 */
 
 Route::get('/categories', [CategoryController::class, 'index']);
+Route::get('/categories/{id}', [CategoryController::class, 'show']);
+Route::post('/categories', [CategoryController::class, 'store']);
+Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);
+
+
+Route::get('/articles', [ArticalController::class, 'index']);
+Route::get('/articles/{id}', [ArticalController::class, 'show']);
+Route::post('/articles', [ArticalController::class, 'store']);
+Route::put('/articles/{id}', [ArticalController::class, 'update']);
+Route::delete('/articles/{id}', [ArticalController::class, 'destroy']);
+
+
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

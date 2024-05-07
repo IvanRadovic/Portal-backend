@@ -1,6 +1,5 @@
 @extends('layouts.app')
 
-
 @section('content')
     </div>
     <div class="bg-gray-100 p-4 pb-4 mb-5 rounded overflow-auto h-screen pt-5">
@@ -21,7 +20,7 @@
             </div>
             <div class="flex flex-wrap mb-6">
                 <label for="content" class="block text-gray-700 text-sm font-bold mb-2">Content:</label>
-                <textarea id="content" name="content" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{{ $article->content }}</textarea>
+                <textarea id="content" name="content" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{!! $article->content !!}</textarea>
             </div>
             <!-- Add more fields as needed -->
             <div class="flex flex-wrap mt-6">
@@ -41,8 +40,10 @@
 
 @section('scripts')
     <script>
+        CKEDITOR.replace('content');
+    </script>
 
-
+    <script>
         document.querySelector('#deleteArticle').addEventListener('click', function() {
             if (confirm('Are you sure you want to delete this article?')) {
                 document.querySelector('#deleteArticle').submit();

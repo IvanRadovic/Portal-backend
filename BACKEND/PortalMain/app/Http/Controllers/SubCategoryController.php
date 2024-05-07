@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Subcategory;
+use App\Models\Category;
 use Illuminate\Support\Facades\Session;
 
 class SubCategoryController extends Controller
@@ -17,9 +18,10 @@ class SubCategoryController extends Controller
     public function index()
     {
         //
-        $subcategories = Subcategory::orderBy('id', 'desc')->get();;
+        $subcategories = Subcategory::orderBy('id', 'desc')->get();
+        $categories = Category::all();
 
-         return view('subcategories', ['title' => 'Subcategory', 'subcategories' => $subcategories]);
+         return view('subcategories', ['title' => 'Subcategory', 'subcategories' => $subcategories, 'categories' => $categories]);
     }
 
     /**
@@ -47,6 +49,7 @@ class SubCategoryController extends Controller
 
             SubCategory::create([
                 'name' => $request->name,
+                'category_id' => $request->category_id,
             ]);
 
             return redirect()->route('subcategories.index')->with('success', 'Subcategory created successfully');
@@ -62,7 +65,8 @@ class SubCategoryController extends Controller
     {
         //
          $subcategory = SubCategory::find($id);
-          return view('subcategories.show', ['subcategory' => $subcategory]);
+         $categories = Category::all();
+          return view('subcategories.show', ['subcategory' => $subcategory, 'categories' => $categories]);
     }
 
     /**

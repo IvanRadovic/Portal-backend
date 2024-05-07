@@ -15,7 +15,14 @@ class CategoryController extends Controller
      */
     public function index()
     {
-         $categories =  Category::class::all();
+         $categories =  Category::class::with('subCategories')->get();
+
+         foreach($categories as $category){
+            $category->path = '/'.str_replace(' ','_',$category->name);
+            foreach($category->subCategories as $subCategory){
+                $subCategory->path = '/'.str_replace(' ','_',$subCategory->name);
+            }
+         }
 
          return response()->json($categories);
     }
