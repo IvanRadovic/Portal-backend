@@ -100,7 +100,21 @@ class ArticalController extends Controller
         $article->subtitle = request('subtitle');
         $article->author = request('author');
         $article->content = request('content');
+
         $article->save();
+
+        if($request->hasFile('cover')){
+            $article->addMedia($request->file('cover'))
+                    ->toMediaCollection('cover');
+       }
+
+       if($request->hasFile('gallery')){
+            foreach($request->file('gallery') as $file){
+                $article->addMedia($file)
+                        ->toMediaCollection('gallery');
+            }
+       }
+
         return redirect('/articles');
     }
 

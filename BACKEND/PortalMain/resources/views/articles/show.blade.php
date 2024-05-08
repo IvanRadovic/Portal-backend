@@ -3,7 +3,7 @@
 @section('content')
     </div>
     <div class="bg-gray-100 p-4 pb-4 mb-5 rounded overflow-auto h-screen pt-5">
-        <form action="{{ route('articles.update', ['id' => $article->id]) }}"  method="POST"  class="w-full max-w-g p-3 mx-auto mt-5">
+        <form action="{{ route('articles.update', ['id' => $article->id]) }}"  method="POST" enctype="multipart/form-data" class="w-full max-w-g p-3 mx-auto mt-5">
             @csrf
             @method('PUT')
             <div class="flex flex-wrap mb-8">
@@ -22,6 +22,8 @@
                 <label for="content" class="block text-gray-700 text-sm font-bold mb-2">Content:</label>
                 <textarea id="content" name="content" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{!! $article->content !!}</textarea>
             </div>
+            <input type="file" name="cover" class="form-control" id="image" placeholder="Image">
+            <input type="file" name="gallery[]" class="form-control" id="image" placeholder="Image" multiple>
             <!-- Add more fields as needed -->
             <div class="flex flex-wrap mt-6">
                 <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">Save Changes</button>

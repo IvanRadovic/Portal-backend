@@ -1,33 +1,52 @@
 <?php
 
 namespace App\Http\Controllers\API;
-
+use App\Models\Articles;
 use App\Http\Controllers\Controller;
-use App\Models\Category;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class ArticalController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-         $categories =  Category::class::with('subCategories')->get();
+   public function index(Request $request)
+   {
+       // Retrieve the query parameters from the request
+       $categoryId = $request->get('category_id');
+       $subcategoryId = $request->get('subcategory_id');
+       $searchString = $request->get('search');
+//        $mediaItems = $request->getMedia();
 
-         foreach($categories as $category){
-            $category->path = '/'.str_replace(' ','_',$category->name);
-            foreach($category->subCategories as $subCategory){
-                $subCategory->path = '/'.str_replace(' ','_',$subCategory->name);
-            }
-         }
+       // Initialize the query
+       $query = Articles::with('media');
 
+       // Add conditions to the query
+       if ($categoryId) {
+           $query->where('category_id', $categoryId);
+       }
 
-         return response()->json($categories);
-    }
+       if ($subcategoryId) {
+           $query->where('subcategory_id', $subcategoryId);
+       }
 
+       if ($searchString) {
+           $query->where(function ($query) use ($searchString) {
+               $query->where('title', 'LIKE', "%{$searchString}%")
+                     ->orWhere('subtitle', 'LIKE', "%{$searchString}%")
+                     ->orWhere('content', 'LIKE', "%{$searchString}%");
+           });
+       }
+
+       // Execute the query and paginate the results
+       $articles = $query->paginate(10);
+
+       // Return the results as a JSON response
+       return response()->json($articles);
+   }
     /**
      * Show the form for creating a new resource.
      *

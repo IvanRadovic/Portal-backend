@@ -80,11 +80,16 @@
                 <input type="text" name="title" placeholder="Title"><br><br>
                 <input type="text" name="subtitle" placeholder="Subtitle"><br><br>
                 <input type="text" name="author" placeholder="Author"><br><br>
-                <select name="category_id">
-                @foreach($categories as $category)
-                    <option value="{{ $category->id }}">{{ $category->name }}</option>
-                @endforeach
-                </select>
+                 <select id="categorySelect" name="category_id">
+                     <option value="">Select Category</option>
+                     @foreach($categories as $category)
+                         <option value="{{ $category->id }}" data-subcategories="{{ json_encode($category->subcategories) }}">{{ $category->name }}</option>
+                     @endforeach
+                 </select>
+
+                 <select id="subcategorySelect" name="subcategory_id" style="display: none;">
+                     <option value="">Select Subcategory</option>
+                 </select>
                 <textarea name="content" placeholder="Content"></textarea><br><br>
 
                 <button type="submit">Submit</button>
@@ -112,5 +117,29 @@
         function closeModal() {
             document.getElementById('createArticleModal').style.display = 'none';
         }
+
+            document.addEventListener('DOMContentLoaded', function () {
+                 var categorySelect = document.getElementById('categorySelect');
+                 var subcategorySelect = document.getElementById('subcategorySelect');
+
+                 categorySelect.addEventListener('change', function () {
+                     var selectedCategoryId = this.value;
+                     var subcategories = JSON.parse(this.options[this.selectedIndex].getAttribute('data-subcategories'));
+
+                     if (selectedCategoryId !== '') {
+                         subcategorySelect.innerHTML = '<option value="">Select Subcategory</option>';
+
+                         subcategories.forEach(function (subcategory) {
+                             var option = document.createElement('option');
+                             option.value = subcategory.id;
+                             option.textContent = subcategory.name;
+                             subcategorySelect.appendChild(option);
+                         });
+                         subcategorySelect.style.display = 'block';
+                     } else {
+                         subcategorySelect.style.display = 'none';
+                     }
+                 });
+             });
     </script>
 @endsection
