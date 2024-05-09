@@ -16,7 +16,12 @@
             </div>
             <div class="flex flex-wrap mb-6">
                 <label for="author" class="block text-gray-700 text-sm font-bold mb-2">Author:</label>
-                <input type="text" id="author" name="author" value="{{ $article->author }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <select id="author_id" name="author_id" class="form-select mt-1 block w-full" required>
+                  @foreach($authors as $author)
+                   <option value="{{ $author->id }}"
+                   @if($article->author_id == $author->id) selected @endif>{{ $author->name }} {{$author->lastname}}</option>
+                  @endforeach
+                </select>
             </div>
             <div class="flex flex-wrap mb-6">
                 <label for="content" class="block text-gray-700 text-sm font-bold mb-2">Content:</label>

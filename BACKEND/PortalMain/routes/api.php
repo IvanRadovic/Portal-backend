@@ -16,6 +16,7 @@ use \App\Http\Controllers\API\CategoryController;
 */
 
 Route::get('/categories', [CategoryController::class, 'index']);
+Route::get('/latesCategories', [CategoryController::class, 'homeCategories']);
 Route::get('/categories/{id}', [CategoryController::class, 'show']);
 Route::post('/categories', [CategoryController::class, 'store']);
 Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);
@@ -27,7 +28,7 @@ Route::post('/articles', [ArticalController::class, 'store']);
 Route::put('/articles/{id}', [ArticalController::class, 'update']);
 Route::delete('/articles/{id}', [ArticalController::class, 'destroy']);
 
-
+Route::get('/authors', [ArticalController::class, 'index']);
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

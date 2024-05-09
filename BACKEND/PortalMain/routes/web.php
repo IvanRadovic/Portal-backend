@@ -7,8 +7,7 @@ use App\Models\Subcategory;
 use App\Http\Controllers\ArticalController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubCategoryController;
-
-
+use App\Http\Controllers\AuthorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +41,14 @@ Route::get('/articles/{id}', [ArticalController::class,'show'])->name('articles.
 Route::post('/articles', [ArticalController::class, 'store'])->name('articles.store');
 Route::delete('/articles/{id}/delete', [ArticalController::class,'destroy'])->name('articles.destroy');
 Route::put('/articles/{id}/edit', [ArticalController::class,'update'])->name('articles.update');
+
+/* ====== Authors ====== */
+Route::get('/authors', [AuthorController::class,'index'])->name('authors.index');
+Route::get('/authors/{id}', [AuthorController::class,'show'])->name('authors.show');
+Route::post('/authors', [AuthorController::class, 'store'])->name('authors.store');
+Route::delete('/authors/{id}/delete', [AuthorController::class,'destroy'])->name('authors.destroy');
+Route::put('/authors/{id}/edit', [AuthorController::class,'update'])->name('authors.update');
+
 
 Route::get('/test', function () {
     return view('test');

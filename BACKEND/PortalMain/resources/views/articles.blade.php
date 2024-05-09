@@ -79,12 +79,17 @@
                 @csrf
                 <input type="text" name="title" placeholder="Title"><br><br>
                 <input type="text" name="subtitle" placeholder="Subtitle"><br><br>
-                <input type="text" name="author" placeholder="Author"><br><br>
                  <select id="categorySelect" name="category_id">
                      <option value="">Select Category</option>
                      @foreach($categories as $category)
                          <option value="{{ $category->id }}" data-subcategories="{{ json_encode($category->subcategories) }}">{{ $category->name }}</option>
                      @endforeach
+                 </select>
+                 <select id="author_id" name="author_id" class="form-select mt-1 block w-full" required>
+                       @foreach($authors as $author)
+                        <option value="{{ $author->id }}"
+                        @if($author->author_id == $author->id) selected @endif>{{ $author->name }} {{$author->lastname}}</option>
+                       @endforeach
                  </select>
 
                  <select id="subcategorySelect" name="subcategory_id" style="display: none;">

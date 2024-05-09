@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Articles;
 use App\Models\Category;
 use App\Models\Subcategory;
+use App\Models\Author;
 use Illuminate\Support\Facades\Session;
 
 class ArticalController extends Controller
@@ -20,8 +21,9 @@ class ArticalController extends Controller
     {
         $articles = Articles::orderBy('id', 'desc')->get();
         $categories = Category::all();
+        $authors = Author::all();
 
-        return view('articles', ['title' => 'Articles','articles' => $articles, 'categories' => $categories]);
+        return view('articles', ['title' => 'Articles','articles' => $articles, 'categories' => $categories, 'authors' => $authors]);
     }
 
     /**
@@ -45,9 +47,9 @@ class ArticalController extends Controller
          $article = new Articles();
             $article->title = request('title');
             $article->content = request('content');
-            $article->author = request('author');
             $article->subtitle = request('subtitle');
             $article->category_id = request('category_id');
+            $article->author_id = request('author_id');
 
             $article->save();
 
@@ -64,9 +66,10 @@ class ArticalController extends Controller
     public function show($id)
     {
         $article = Articles::find($id);
+        $authors = Author::all();
         $categories = Category::all();
         $subcategories = Subcategory::all();
-        return view('articles.show', ['title'=> 'Edit','article' => $article, 'categories' => $categories, 'subcategories' => $subcategories]);
+        return view('articles.show', ['title'=> 'Edit','article' => $article, 'categories' => $categories, 'subcategories' => $subcategories, 'authors' => $authors]);
     }
 
     /**
@@ -91,14 +94,14 @@ class ArticalController extends Controller
     {
         request()->validate([
             'title' => 'required',
-            'author' => 'required',
+            'author_id' => 'required',
             'content' => 'required',
         ]);
 
         $article = Articles::find($id);
         $article->title = request('title');
         $article->subtitle = request('subtitle');
-        $article->author = request('author');
+        $article->author_id = request('author_id');
         $article->content = request('content');
 
         $article->save();

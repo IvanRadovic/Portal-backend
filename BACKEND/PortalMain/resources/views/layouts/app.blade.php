@@ -30,7 +30,8 @@
 <nav class="mb-4 bg-blue-500 p-3 rounded text-white sticky top-0 text-lg">
     <a class="mx-2 hover:text-gray-200" data-ajax href="{{ url('/') }}">Categories</a> |
     <a class="mx-2 hover:text-gray-200" data-ajax href="{{ url('/subcategories') }}">Subcategories</a> |
-    <a class="mx-2 hover:text-gray-200" data-ajax href="{{ url('/articles') }}">Articles</a>
+    <a class="mx-2 hover:text-gray-200" data-ajax href="{{ url('/articles') }}">Articles</a> |
+    <a class="mx-2 hover:text-gray-200" data-ajax href="{{ url('/authors') }}">Authors</a>
 </nav>
 <h1 class="mb-4 text-2xl mx-3 py-2">@yield('title')</h1>
 

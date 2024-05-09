@@ -13,15 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('article', function (Blueprint $table) {
+         Schema::create('authors', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('subtitle');
-            $table->text('content');
-            $table->foreignId('category_id')->constrained('categories');
-            $table->foreignId('subcategory_id')->constrained('subcategories')->nullable();
+            $table->string('name');
+            $table->string('lastname');
+            $table->string('biography');
+            $table->string('type');
             $table->timestamps();
-        });
+         });
     }
 
     /**
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('article');
+        Schema::dropIfExists('authors');
     }
 };

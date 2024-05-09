@@ -15,4 +15,14 @@ class Articles extends Model implements HasMedia
 
     protected $guarded = [];
 
+     public function categories()
+        {
+            return $this->hasOne(Categories::class, 'id', 'category_id');
+        }
+
+     public function subcategories()
+        {
+            return $this->hasOne(Subcategories::class, 'id', 'subcategory_id');
+        }
+
 }

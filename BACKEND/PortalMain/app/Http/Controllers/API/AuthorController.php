@@ -1,52 +1,24 @@
 <?php
 
 namespace App\Http\Controllers\API;
-use App\Models\Articles;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
-class ArticalController extends Controller
+use App\Models\Author
+;
+class AuthorController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-   public function index(Request $request)
-   {
-       // Retrieve the query parameters from the request
-       $categoryId = $request->get('category_id');
-       $subcategoryId = $request->get('subcategory_id');
-       $searchString = $request->get('search');
-       $perPage = $request->get('per_page', 10);
+    public function index()
+    {
+        //
+        return response()->json(Author::all());
+    }
 
-       // Initialize the query
-       $query = Articles::with('media');
-
-       // Add conditions to the query
-       if ($categoryId) {
-           $query->where('category_id', $categoryId);
-       }
-
-       if ($subcategoryId) {
-           $query->where('subcategory_id', $subcategoryId);
-       }
-
-       if ($searchString) {
-           $query->where(function ($query) use ($searchString) {
-               $query->where('title', 'LIKE', "%{$searchString}%")
-                     ->orWhere('subtitle', 'LIKE', "%{$searchString}%")
-                     ->orWhere('content', 'LIKE', "%{$searchString}%");
-           });
-       }
-
-       // Execute the query and paginate the results
-       $articles = $query->paginate(10);
-
-       // Return the results as a JSON response
-       return response()->json($articles);
-   }
     /**
      * Show the form for creating a new resource.
      *
