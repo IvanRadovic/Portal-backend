@@ -46,9 +46,9 @@
  <div class="bg-gray-100 p-4 pb-4 mb-5 rounded h-screen">
 
      <div style="display:flex; align-items:center; justify-content:center">
-         <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="openModal()">
-             Create Subcategory
-         </button>
+         <a href="{{ route('subcategories.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              Create Subcategory
+          </a>
      </div>
 
      @foreach($subcategories as $subcat)
@@ -58,31 +58,6 @@
          </div>
      </a>
      @endforeach
-
-     <!-- Create Subcategory Modal -->
-     <div id="createSubcategoryModal" class="modal">
-         <!-- Modal content -->
-         <div class="modal-content">
-             <span class="close" onclick="closeModal()">&times;</span>
-             <h2>Create Subcategory</h2>
-             <form action="{{ route('subcategories.store') }}" method="POST">
-                 @csrf
-                 <div class="mb-4">
-                     <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-                     <input type="text" id="name" name="name" class="form-input mt-1 block w-full" required>
-                 </div>
-                    <div class="mb-4">
-                        <label for="category_id" class="block text-sm font-medium text-gray-700">Category</label>
-                        <select id="category_id" name="category_id" class="form-select mt-1 block w-full" required>
-                            @foreach($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                 <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create</button>
-             </form>
-         </div>
-     </div>
 
  </div>
 

@@ -67,39 +67,17 @@
     </style>
 
     <div style="display:flex; align-items:center; justify-content:center">
-        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="openModal()">
-            Create Article
-        </button>
+        <a href="{{ route('articles.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+             Create Article
+        </a>
     </div>
 
-    <div id="createArticleModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <form action="{{ route('articles.store') }}" method="post">
-                @csrf
-                <input type="text" name="title" placeholder="Title"><br><br>
-                <input type="text" name="subtitle" placeholder="Subtitle"><br><br>
-                 <select id="categorySelect" name="category_id">
-                     <option value="">Select Category</option>
-                     @foreach($categories as $category)
-                         <option value="{{ $category->id }}" data-subcategories="{{ json_encode($category->subcategories) }}">{{ $category->name }}</option>
-                     @endforeach
-                 </select>
-                 <select id="author_id" name="author_id" class="form-select mt-1 block w-full">
-                       @foreach($authors as $author)
-                        <option value="{{ $author->id }}"
-                        @if($author->author_id == $author->id) selected @endif>{{ $author->name }} {{$author->lastname}}</option>
-                       @endforeach
-                 </select>
-
-                 <select id="subcategorySelect" name="subcategory_id" style="display: none;">
-                     <option value="">Select Subcategory</option>
-                 </select>
-                <textarea name="content" placeholder="Content"></textarea><br><br>
-
-                <button type="submit">Submit</button>
-            </form>
-        </div>
+    <!-- Search form -->
+    <div style="display:flex; align-items:center; justify-content:center; margin-top: 20px;">
+        <form action="{{ request()->url() }}" method="GET">
+            <input type="text" name="search" placeholder="Search for articles" class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Search</button>
+        </form>
     </div>
 
     <div class="bg-gray-100 p-4 pb-4 mb-5 rounded h-screen">
@@ -108,7 +86,7 @@
             <a href="{{ route('articles.show', $art->id) }}" class="p-4 mb-4 bg-white rounded shadow flex justify-between">
                 <div>
                     <h2 class="text-xl font-bold mb-2">{{ $art->title }}</h2>
-                    <p class="text-gray-700">{{ Str::limit($art->content, 200) }}</p>
+                   <p class="text-gray-700">{{ Str::limit(strip_tags($art->content), 200) }}</p>
                 </div>
             </a>
         @endforeach

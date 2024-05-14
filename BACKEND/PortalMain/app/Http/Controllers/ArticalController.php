@@ -17,14 +17,21 @@ class ArticalController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $articles = Articles::orderBy('id', 'desc')->get();
-        $categories = Category::all();
-        $authors = Author::all();
+  public function index(Request $request)
+  {
+      $search = $request->get('search');
+      $query = Articles::query();
 
-        return view('articles', ['title' => 'Articles','articles' => $articles, 'categories' => $categories, 'authors' => $authors]);
-    }
+      if ($search) {
+          $query->where('title', 'like', "%{$search}%");
+      }
+
+      $articles = $query->orderBy('id', 'desc')->get();
+      $categories = Category::all();
+      $authors = Author::all();
+
+      return view('articles', ['title' => 'Articles','articles' => $articles, 'categories' => $categories, 'authors' => $authors]);
+  }
 
     /**
      * Show the form for creating a new resource.
@@ -34,6 +41,10 @@ class ArticalController extends Controller
     public function create()
     {
         //
+        $authors = Author::all();
+        $categories = Category::all();
+        $subcategories = Subcategory::all();
+        return view('articles.create', ['title'=> 'Create Article','categories' => $categories, 'subcategories' => $subcategories, 'authors' => $authors]);
     }
 
     /**

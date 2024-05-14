@@ -32,6 +32,8 @@ class SubCategoryController extends Controller
     public function create()
     {
         //
+        $categories = Category::all();
+        return view('subcategories.create', ['categories' => $categories, 'title' => 'Create Subcategory']);
     }
 
     /**
@@ -52,7 +54,7 @@ class SubCategoryController extends Controller
                 'category_id' => $request->category_id,
             ]);
 
-            return redirect()->route('subcategories.index')->with('success', 'Subcategory created successfully');
+            return redirect('/subcategories');
     }
 
     /**
