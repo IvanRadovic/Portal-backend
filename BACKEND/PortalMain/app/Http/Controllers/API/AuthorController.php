@@ -15,8 +15,7 @@ class AuthorController extends Controller
      */
     public function index()
     {
-        //
-        return response()->json(Author::all());
+        return response()->json(Author::with('media')->get());
     }
 
     /**
@@ -48,7 +47,7 @@ class AuthorController extends Controller
      */
     public function show($id)
     {
-        //
+        return response()->json(Author::with('media')->find($id));
     }
 
     /**

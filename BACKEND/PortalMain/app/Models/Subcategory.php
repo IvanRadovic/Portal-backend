@@ -13,4 +13,10 @@ class Subcategory extends Model
 
     protected $table = 'subcategories';
     protected $guarded = [];
+
+
+    public function articles()
+        {
+            return $this->hasMany(Articles::class, 'subcategory_id', 'id');
+        }
 }

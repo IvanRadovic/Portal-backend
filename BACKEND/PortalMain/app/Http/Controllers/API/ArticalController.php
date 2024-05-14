@@ -76,7 +76,10 @@ class ArticalController extends Controller
      */
     public function show($id)
     {
-        //
+        $article = Articles::with(['media','categories','subcategories'])
+            ->find($id);
+
+        return response()->json($article);
     }
 
     /**
@@ -87,7 +90,7 @@ class ArticalController extends Controller
      */
     public function edit($id)
     {
-        //
+
     }
 
     /**

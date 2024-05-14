@@ -11,18 +11,18 @@ class Articles extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
 
-    protected $table = 'articles';
+    protected $table = 'article';
 
     protected $guarded = [];
 
      public function categories()
         {
-            return $this->hasOne(Categories::class, 'id', 'category_id');
+            return $this->hasOne(Category::class, 'id', 'category_id');
         }
 
      public function subcategories()
         {
-            return $this->hasOne(Subcategories::class, 'id', 'subcategory_id');
+            return $this->hasOne(Subcategory::class, 'id', 'subcategory_id');
         }
 
 }

@@ -110,6 +110,8 @@ class AuthorController extends Controller
         $author->save();
 
          if($request->hasFile('cover')){
+              $author->getFirstMedia('cover')->delete();
+
               $author->addMedia($request->file('cover'))
                      ->toMediaCollection('cover');
           }

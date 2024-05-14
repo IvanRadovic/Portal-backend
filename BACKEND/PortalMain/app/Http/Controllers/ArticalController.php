@@ -49,6 +49,7 @@ class ArticalController extends Controller
             $article->content = request('content');
             $article->subtitle = request('subtitle');
             $article->category_id = request('category_id');
+            $article->subcategory_id = request('subcategory_id');
             $article->author_id = request('author_id');
 
             $article->save();
@@ -107,6 +108,8 @@ class ArticalController extends Controller
         $article->save();
 
         if($request->hasFile('cover')){
+            $article->getFirstMedia('cover')->delete();
+
             $article->addMedia($request->file('cover'))
                     ->toMediaCollection('cover');
        }

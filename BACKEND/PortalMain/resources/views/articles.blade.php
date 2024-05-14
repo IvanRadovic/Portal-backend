@@ -85,7 +85,7 @@
                          <option value="{{ $category->id }}" data-subcategories="{{ json_encode($category->subcategories) }}">{{ $category->name }}</option>
                      @endforeach
                  </select>
-                 <select id="author_id" name="author_id" class="form-select mt-1 block w-full" required>
+                 <select id="author_id" name="author_id" class="form-select mt-1 block w-full">
                        @foreach($authors as $author)
                         <option value="{{ $author->id }}"
                         @if($author->author_id == $author->id) selected @endif>{{ $author->name }} {{$author->lastname}}</option>
