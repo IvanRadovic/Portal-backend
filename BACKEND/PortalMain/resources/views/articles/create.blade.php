@@ -1,66 +1,227 @@
-@extends('layouts.app')
+@extends('layouts.layoutMaster')
 
 @section('title', $title)
 
-@section('content')
-    <div id="createArticleModal" class="modal">
-        <div class="modal-content" style="background-color: #f8f9fa; padding: 20px; border-radius: 10px;">
-            @include('_part.msg')
-            <form action="{{ route('articles.store') }}" method="POST" style="margin-top: 20px;">
-                @csrf
-                <div class="mb-4" style="margin-bottom: 20px;">
-                    <label for="date" class="block text-sm font-medium text-gray-700">Pushed at:</label>
-                    <input type="date" id="date" name="date" class="form-input mt-1 block w-full" required
-                           style="border: 2px solid #6c757d; border-radius: 5px; padding: 5px;">
+@section('vendor-style')
+    {{-- editor --}}
+    <link rel="stylesheet" href="{{asset('assets/vendor/libs/quill/typography.css')}}" />
+    <link rel="stylesheet" href="{{asset('assets/vendor/libs/quill/katex.css')}}" />
+    <link rel="stylesheet" href="{{asset('assets/vendor/libs/quill/editor.css')}}" />
+    {{-- date datumi --}}
+    <link rel="stylesheet" href="{{asset('assets/vendor/libs/flatpickr/flatpickr.css')}}" />
+@endsection
 
-                    <label for="title" class="block text-sm font-medium text-gray-700">Title:</label>
-                    <input type="text" id="title" name="title" class="form-input mt-1 block w-full" required
-                           style="border: 2px solid #6c757d; border-radius: 5px; padding: 5px;">
-                    <label for="subtitle" class="block text-sm font-medium text-gray-700">Subtitle:</label>
-                    <input type="text" id="subtitle" name="subtitle" class="form-input mt-1 block w-full"
-                           style="border: 2px solid #6c757d; border-radius: 5px; padding: 5px;" required>
-                    <label for="categorySelect" class="block text-sm font-medium text-gray-700">Category:</label>
-                    <div style="display: flex; justify-content: space-between;">
-                        <select id="categorySelect" name="category_id" class="form-input mt-1 block w-full"
-                                style="border: 2px solid #6c757d; border-radius: 5px; padding: 5px; flex: 1; margin-right: 10px;" required>
-                            <option value="">Select Category</option>
-                            @foreach($categories as $category)
-                                <option value="{{ $category->id }}"
-                                        data-subcategories="{{ json_encode($category->subcategories) }}">{{ $category->name }}</option>
-                            @endforeach
-                        </select>
-                        <select id="subcategorySelect" name="subcategory_id"
-                                style="display: none; border: 2px solid #6c757d; border-radius: 5px; padding: 5px; flex: 1; margin-left: 10px;">
-                            <option value="">Select Subcategory</option>
-                        </select>
+@section('vendor-script')
+    {{-- editor --}}
+    <script src="{{asset('assets/vendor/libs/quill/katex.js')}}"></script>
+    <script src="{{asset('assets/vendor/libs/quill/quill.js')}}"></script>
+    {{-- date datumi --}}
+    <script src="{{asset('assets/vendor/libs/flatpickr/flatpickr.js')}}"></script>
+@endsection
+
+@section('page-script')
+    {{-- editor --}}
+    <script>
+        // Full Toolbar Editor
+        // --------------------------------------------------------------------
+        const fullToolbar = [
+            [
+                {
+                    font: []
+                },
+                {
+                    size: []
+                }
+            ],
+            ['bold', 'italic', 'underline', 'strike'],
+            [
+                {
+                    color: []
+                },
+                {
+                    background: []
+                }
+            ],
+            [
+                {
+                    script: 'super'
+                },
+                {
+                    script: 'sub'
+                }
+            ],
+            [
+                {
+                    header: '1'
+                },
+                {
+                    header: '2'
+                },
+                'blockquote',
+                'code-block'
+            ],
+            [
+                {
+                    list: 'ordered'
+                },
+                {
+                    list: 'bullet'
+                },
+                {
+                    indent: '-1'
+                },
+                {
+                    indent: '+1'
+                }
+            ],
+            [{ direction: 'rtl' }],
+            ['link', 'image', 'video', 'formula'],
+            ['clean']
+        ];
+        const quillContainer = document.querySelector('#full-editor');
+        const fullEditor = new Quill(quillContainer, {
+            bounds: '#full-editor',
+            placeholder: 'Type Something...',
+            modules: {
+                formula: true,
+                toolbar: fullToolbar
+            },
+            theme: 'snow'
+        });
+    </script>
+    {{-- date datumi --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function (e) {
+            (function () {
+                const formValidation = document.getElementById('form');
+                flatpickr(formValidation.querySelector('[name="date"]'), {
+                    enableTime: true,
+                    // See https://flatpickr.js.org/formatting/
+                    dateFormat: 'd-m-Y H:i',
+                });
+            })();
+        });
+
+        document.getElementById('form').addEventListener('submit', function () {
+            event.preventDefault();
+            alert('asdfasdfasdf');
+
+            const editorContent = fullEditor.root.innerHTML;
+            console.log(editorContent);
+            $("#hiddenArea").val(editorContent);
+
+            document.getElementById('form').submit();
+        });
+    </script>
+@endsection
+
+@section('content')
+    <div id="createArticleModal">
+        <div class="modal-content">
+            @include('_part.msg')
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <form action="{{ route('articles.store') }}" method="POST" class="row g-3" id="form" enctype="multipart/form-data">
+                                @csrf
+                                    <div class="col-12">
+                                        <div class="">
+                                            <label for="date" class="block text-sm font-medium text-gray-700">Pushed at:</label>
+                                            <input type="date" id="date" name="date" class="form-control" required >
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="">
+                                            <label for="title" class="block text-sm font-medium text-gray-700">Title:</label>
+                                            <input type="text" id="title" name="title" class="form-control" required >
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="">
+                                            <label for="subtitle" class="block text-sm font-medium text-gray-700">Subtitle:</label>
+                                            <input type="text" id="subtitle" name="subtitle" class="form-control" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="">
+                                            <label for="categorySelect" class="block text-sm font-medium text-gray-700">Category:</label>
+                                            <div>
+                                                <select id="categorySelect" name="category_id" class="form-control"
+                                                        required>
+                                                    <option value="">Select Category</option>
+                                                    @foreach($categories as $category)
+                                                        <option value="{{ $category->id }}"
+                                                                data-subcategories="{{ json_encode($category->subcategories) }}">{{ $category->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                <select id="subcategorySelect" name="subcategory_id" class="form-control">
+                                                    <option value="">Select Subcategory</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="">
+                                            <label for="author_id" class="block text-sm font-medium text-gray-700">Author:</label>
+                                            <select id="author_id" name="author_id" class="form-control" >
+                                                @foreach($authors as $author)
+                                                    <option value="{{ $author->id }}"
+                                                            @if($author->author_id == $author->id) selected @endif>{{ $author->name }} {{$author->lastname}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    {{--
+                                    <label for="content" class="block text-sm font-medium text-gray-700">Content:</label>
+                                    <textarea id="content" name="content"
+                                              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                              required></textarea>
+                                    --}}
+
+                                    <!-- Full Editor -->
+                                    <div class="col-12">
+                                        <div class="">
+                                            <h5 class="card-header">Content</h5>
+                                            <div class="card-body">
+                                                <div id="full-editor"></div>
+                                            </div>
+
+                                            <textarea name="content" id="hiddenArea" style="visibility: hidden"></textarea>
+                                        </div>
+                                    </div>
+                                    <!-- /Full Editor -->
+
+                                    <div class="col-12">
+                                        <div class="">
+                                            <label for="is_published" class="block text-sm font-medium text-gray-700">Is published:</label>
+                                            <input type="checkbox" name="is_published" id="is_published" value="1" class="form-check-input"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="">
+                                            <input type="file" name="cover" class="form-control" id="image" accept="image/*" required>
+                                        </div>
+                                    </div>
+                                <div class="col-12">
+                                    <button type="submit" name="submitButton" class="btn btn-primary">Create</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                    <label for="author_id" class="block text-sm font-medium text-gray-700">Author:</label>
-                    <select id="author_id" name="author_id" class="form-input mt-1 block w-full"
-                            style="border: 2px solid #6c757d; border-radius: 5px; padding: 5px;">
-                        @foreach($authors as $author)
-                            <option value="{{ $author->id }}"
-                                    @if($author->author_id == $author->id) selected @endif>{{ $author->name }} {{$author->lastname}}</option>
-                        @endforeach
-                    </select>
-                    <label for="content" class="block text-sm font-medium text-gray-700">Content:</label>
-                    <textarea id="content" name="content"
-                              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                              style="border: 2px solid #6c757d; border-radius: 5px; padding: 5px;" required></textarea>
-                    <br>
-                    <label for="is_published" class="block text-sm font-medium text-gray-700">Is published:</label>
-                    <input type="checkbox" name="is_published" id="is_published" value="1" class="form-control"/>
-                    <br>
-                    <input type="file" name="cover" class="form-control" id="image" required>
                 </div>
-                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                        style="border: none; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);">Create
-                </button>
-            </form>
+            </div>
         </div>
     </div>
 
     <script>
-        CKEDITOR.replace('content');
+        // CKEDITOR.replace('content');
 
         document.addEventListener('DOMContentLoaded', function () {
             var categorySelect = document.getElementById('categorySelect');
