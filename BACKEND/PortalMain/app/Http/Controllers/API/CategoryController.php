@@ -34,7 +34,7 @@ class CategoryController extends Controller
 
       $categories = $categories->map(function ($category) {
               $category->path = '/'.str_replace(' ','_',$category->name);
-              $category->articles = $category->articles()->latest()->take(3)->get();
+              $category->articles = $category->articles()->orderBy('date', 'desc')->take(3)->get();
               foreach($category->articles as $article){
                   $article->subcategories = $article->subcategories;
                   $article->getMedia();
@@ -48,7 +48,7 @@ class CategoryController extends Controller
   function homeSubCategories($id){
       $category =
         Category::with(['subCategories.articles' => function ($query) {
-              $query->take(3); // Limit the number of articles to 3
+              $query->orderBy('date', 'desc')->take(3); // Limit the number of articles to 3
           }])->find($id);
 
       $category->path = '/'.str_replace(' ','_',$category->name);
