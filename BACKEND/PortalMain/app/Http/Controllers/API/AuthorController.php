@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Articles;
 use Illuminate\Http\Request;
 use App\Models\Author
 ;
@@ -47,7 +48,15 @@ class AuthorController extends Controller
      */
     public function show($id)
     {
-        return response()->json(Author::with('media')->find($id));
+        $author = Author::with('media')->find($id);
+
+        $articles = Articles::where('author_id', $id)
+                ->where('is_published', 1)
+                ->orderBy('date', 'desc')->take(3)->get();
+
+        $author->artices = $articles;
+
+        return response()->json($author);
     }
 
     /**
