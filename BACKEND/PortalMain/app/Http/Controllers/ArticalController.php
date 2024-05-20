@@ -3,15 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Traits\DateTimeConversations;
 use Illuminate\Http\Request;
 use App\Models\Articles;
 use App\Models\Category;
 use App\Models\Subcategory;
 use App\Models\Author;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class ArticalController extends Controller
 {
+
+    private DateTimeConversations $dateTimeConversations;
+
+    public function __construct(DateTimeConversations $dateTimeConversations) {
+        $this->dateTimeConversations = $dateTimeConversations;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -62,9 +71,11 @@ class ArticalController extends Controller
             'cover' => 'required',
         ]);
 
+        $datum = $this->dateTimeConversations->customToStandard(request('date'));
+
         $article = new Articles();
 
-        $article->date = request('date');
+        $article->date = $datum;
         $article->title = request('title');
         $article->content = request('content');
         $article->subtitle = request('subtitle');
@@ -86,7 +97,9 @@ class ArticalController extends Controller
      */
     public function show($id)
     {
-        $article = Articles::find($id);
+        $article = Articles::
+            select('article.*', DB::raw('DATE_FORMAT(date, "%d-%m-%Y %H:%i") as date'),)
+            ->find($id);
         $authors = Author::all();
         $categories = Category::all();
         $subcategories = Subcategory::all();

@@ -20,7 +20,7 @@ use App\Http\Controllers\AuthorController;
 |
 */
 /* ====== Categories ====== */
-Route::get('/', [CategoryController::class,'index'])->name('categories.index');
+Route::get('/categories', [CategoryController::class,'index'])->name('categories.index');
 Route::get('/categories/create', [CategoryController::class,'create'])->name('categories.create');
 Route::get('/categories/{id}',[CategoryController::class,'show'])->name('categories.show');
 Route::post('/categories',[CategoryController::class,'store'])->name('categories.store');
@@ -37,6 +37,7 @@ Route::delete('/subcategories/{id}', [SubCategoryController::class, 'destroy'])-
 
 
 /* ====== Articles ====== */
+Route::get('/', [ArticalController::class,'index']);
 Route::get('/articles', [ArticalController::class,'index'])->name('articles.index');
 Route::get('/articles/create', [ArticalController::class,'create'])->name('articles.create');
 Route::get('/articles/{id}', [ArticalController::class,'show'])->name('articles.show');
