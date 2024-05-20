@@ -55,18 +55,27 @@ class ArticalController extends Controller
      */
     public function store(Request $request)
     {
-         $article = new Articles();
-            $article->title = request('title');
-            $article->content = request('content');
-            $article->subtitle = request('subtitle');
-            $article->category_id = request('category_id');
-            $article->subcategory_id = request('subcategory_id');
-            $article->author_id = request('author_id');
+        request()->validate([
+            'title' => 'required',
+            'author_id' => 'required',
+            'content' => 'required',
+            'cover' => 'required',
+        ]);
 
-            $article->save();
+        $article = new Articles();
 
-            $categories = Category::all();
-            return redirect('/articles');
+        $article->date = request('date');
+        $article->title = request('title');
+        $article->content = request('content');
+        $article->subtitle = request('subtitle');
+        $article->category_id = request('category_id');
+        $article->subcategory_id = request('subcategory_id');
+        $article->author_id = request('author_id');
+        $article->is_published = $request->is_published ? 1 : 0;
+
+        $article->save();
+
+        return redirect('/articles/'.$article->id);
     }
 
     /**
@@ -81,6 +90,7 @@ class ArticalController extends Controller
         $authors = Author::all();
         $categories = Category::all();
         $subcategories = Subcategory::all();
+
         return view('articles.show', ['title'=> 'Edit','article' => $article, 'categories' => $categories, 'subcategories' => $subcategories, 'authors' => $authors]);
     }
 
@@ -107,14 +117,16 @@ class ArticalController extends Controller
         request()->validate([
             'title' => 'required',
             'author_id' => 'required',
-            'content' => 'required',
+            'content' => 'required'
         ]);
 
         $article = Articles::find($id);
+        $article->date = request('date');
         $article->title = request('title');
         $article->subtitle = request('subtitle');
         $article->author_id = request('author_id');
         $article->content = request('content');
+        $article->is_published = $request->is_published ? 1 : 0;
 
         $article->save();
 
