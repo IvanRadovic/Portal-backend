@@ -11,7 +11,7 @@ class Articles extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
 
-    protected $table = 'articles';
+    protected $table = 'article';
 
     protected $guarded = [];
 
