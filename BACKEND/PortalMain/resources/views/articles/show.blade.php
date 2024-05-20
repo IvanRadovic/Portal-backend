@@ -123,6 +123,13 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
+
+                            <!-- Delete Form -->
+                            {{--<form action="{{ route('articles.destroy', $article->id) }}" method="POST" style="text-align: right;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>--}}
                             <form action="{{ route('articles.update', ['id' => $article->id]) }}" method="POST" class="row g-3" id="form" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
@@ -217,7 +224,7 @@
 
                                 <div class="col-12">
                                     <div class="">
-                                        <input type="file" name="cover" class="form-control" id="image" accept="image/*" required>
+                                        <input type="file" name="cover" class="form-control" id="image" >
                                     </div>
                                 </div>
 

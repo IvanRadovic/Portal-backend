@@ -133,8 +133,10 @@ class ArticalController extends Controller
             'content' => 'required'
         ]);
 
+        $datum = $this->dateTimeConversations->customToStandard(request('date'));
+
         $article = Articles::find($id);
-        $article->date = request('date');
+        $article->date = $datum;
         $article->title = request('title');
         $article->subtitle = request('subtitle');
         $article->author_id = request('author_id');
@@ -144,7 +146,8 @@ class ArticalController extends Controller
         $article->save();
 
         if($request->hasFile('cover')){
-            $article->getFirstMedia('cover')->delete();
+            if ($article->getFirstMedia('cover'))
+                $article->getFirstMedia('cover')->delete();
 
             $article->addMedia($request->file('cover'))
                     ->toMediaCollection('cover');

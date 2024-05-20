@@ -82,14 +82,31 @@
 
     <div class="bg-gray-100 p-4 pb-4 mb-5 rounded h-screen">
         @include('_part.msg')
+
+        <div class="row mb-5">
         @foreach($articles as $art)
-            <a href="{{ route('articles.show', $art->id) }}" class="p-4 mb-4 bg-white rounded shadow flex justify-between">
+            {{--<a href="{{ route('articles.show', $art->id) }}" class="p-4 mb-4 bg-white rounded shadow flex justify-between">
                 <div>
                     <h2 class="text-xl font-bold mb-2">{{ $art->title }}</h2>
                    <p class="text-gray-700">{{ Str::limit(strip_tags($art->content), 200) }}</p>
                 </div>
-            </a>
+            </a>--}}
+                <div class="col-md-6 col-lg-4 mb-3">
+                    <div class="card h-100">
+                        @foreach($art->getMedia('cover') as $file)
+                            <img class="card-img-top" src="{{ $file->getUrl() }}" alt="Card image cap">
+                        @endforeach
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $art->title }}</h5>
+                            <p class="card-text">
+                                {{ Str::limit(strip_tags($art->content), 200) }}
+                            </p>
+                            <a href="{{ route('articles.show', $art->id) }}" class="btn btn-outline-primary waves-effect">Edit</a>
+                        </div>
+                    </div>
+                </div>
         @endforeach
+        </div>
     </div>
 
     <script>
