@@ -30,7 +30,7 @@ class CategoryController extends Controller
     }
 
   function homeCategories(){
-      $categories = Category::all();
+      $categories = Category::with('subCategories')->get();
 
       $categories = $categories->map(function ($category) {
               $category->path = '/'.str_replace(' ','_',$category->name);
