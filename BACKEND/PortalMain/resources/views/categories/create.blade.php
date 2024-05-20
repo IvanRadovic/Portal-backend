@@ -1,10 +1,10 @@
-@extends('layouts.app')
+@extends('layouts.layoutMaster')
 
 @section('title', $title)
 
 @section('content')
 
-<div id="createCategory" class="modal">
+<div id="createCategory">
    <div class="modal-content" style="background-color: #f8f9fa; padding: 20px; border-radius: 10px;">
        <form action="{{ route('categories.store') }}" method="POST">
            @csrf

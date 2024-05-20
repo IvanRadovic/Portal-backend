@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.layoutMaster')
 
 @section('content')
     <div class="bg-gray-100 p-4 pb-4 mb-5 rounded h-screen">

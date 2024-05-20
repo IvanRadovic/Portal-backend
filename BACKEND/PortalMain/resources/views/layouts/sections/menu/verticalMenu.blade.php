@@ -1,5 +1,5 @@
 @php
-$configData = Helper::appClasses();
+$configData = \App\Helpers\Helpers::appClasses();
 @endphp
 
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
@@ -9,7 +9,7 @@ $configData = Helper::appClasses();
   <div class="app-brand demo">
     <a href="{{url('/')}}" class="app-brand-link">
       <span class="app-brand-logo demo">
-        @include('_partials.macros',["height"=>20])
+        @include('_partials.macros',["height"=>64])
       </span>
       <span class="app-brand-text demo menu-text fw-bold">{{config('variables.templateName')}}</span>
     </a>
