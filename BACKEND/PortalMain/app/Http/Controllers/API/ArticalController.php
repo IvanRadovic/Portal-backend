@@ -18,6 +18,7 @@ class ArticalController extends Controller
        // Retrieve the query parameters from the request
        $categoryId = $request->get('category_id');
        $subcategoryId = $request->get('subcategory_id');
+       $authorId = $request->get('author_id');
        $searchString = $request->get('search');
        $perPage = $request->get('per_page', 10);
 
@@ -27,6 +28,10 @@ class ArticalController extends Controller
        // Add conditions to the query
        if ($categoryId) {
            $query->where('category_id', $categoryId);
+       }
+
+       if ($authorId) {
+           $query->where('author_id', $authorId);
        }
 
        if ($subcategoryId) {
@@ -42,7 +47,7 @@ class ArticalController extends Controller
        }
 
        // Execute the query and paginate the results
-       $articles = $query->paginate(10);
+       $articles = $query->where('is_published', 1)->paginate($perPage);
 
        // Return the results as a JSON response
        return response()->json($articles);
@@ -77,6 +82,7 @@ class ArticalController extends Controller
     public function show($id)
     {
         $article = Articles::with(['media','categories','subcategories'])
+            ->where('is_published', 1)
             ->find($id);
 
         return response()->json($article);
