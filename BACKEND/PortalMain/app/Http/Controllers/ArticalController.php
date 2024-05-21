@@ -35,7 +35,7 @@ class ArticalController extends Controller
           $query->where('title', 'like', "%{$search}%");
       }
 
-      $articles = $query->orderBy('id', 'desc')->get();
+      $articles = $query->orderBy('id', 'desc')->paginate(10);
       $categories = Category::all();
       $authors = Author::all();
 
