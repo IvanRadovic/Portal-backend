@@ -91,7 +91,6 @@
 
         document.getElementById('form').addEventListener('submit', function () {
             event.preventDefault();
-            alert('asdfasdfasdf');
 
             const editorContent = fullEditor.root.innerHTML;
             console.log(editorContent);
