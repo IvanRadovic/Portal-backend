@@ -239,13 +239,6 @@
                                 <div class="col-12">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <button type="submit" name="submitButton" class="btn btn-primary">Create</button>
-
-                                        <!-- Delete Form -->
-                                        <form action="{{ route('authors.destroy', $author->id) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger">Delete</button>
-                                        </form>
                                     </div>
                                 </div>
                             </form>
