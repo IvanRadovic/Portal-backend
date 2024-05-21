@@ -82,6 +82,68 @@ $configData = \App\Helpers\Helpers::appClasses();
     </li>
     @endif
     @endforeach
+
+        <li class="menu-item">
+            <a class="nav-link dropdown-toggle hide-arrow menu-link" href="javascript:void(0);" data-bs-toggle="dropdown">
+                <i class="menu-icon tf-icons ti ti-logout"></i>
+                <div class="avatar avatar-online" style="margin-left: 10%;">
+                    <img src="{{ Auth::user() ? Auth::user()->profile_photo_url : asset('assets/img/avatars/1.png') }}" alt class="rounded-circle">
+                </div>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                    <a class="dropdown-item" href="{{ Route::has('profile.show') ? route('profile.show') : url('pages/profile-user') }}">
+                        <div class="d-flex">
+                            <div class="flex-shrink-0 me-3">
+                                <div class="avatar avatar-online">
+                                    <img src="{{ Auth::user() ? Auth::user()->profile_photo_url : asset('assets/img/avatars/1.png') }}" alt class="h-auto rounded-circle">
+                                </div>
+                            </div>
+                            <div class="flex-grow-1">
+                      <span class="fw-medium d-block">
+                        @if (Auth::check())
+                              {{ Auth::user()->name }}
+                          @else
+                              John Doe
+                          @endif
+                      </span>
+                                <small class="text-muted">Admin</small>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <div class="dropdown-divider"></div>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="{{ Route::has('profile.show') ? route('profile.show') : url('pages/profile-user') }}">
+                        <i class="ti ti-user-check me-2 ti-sm"></i>
+                        <span class="align-middle">My Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <div class="dropdown-divider"></div>
+                </li>
+                @if (Auth::check())
+                    <li>
+                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <i class='ti ti-logout me-2'></i>
+                            <span class="align-middle">Logout</span>
+                        </a>
+                    </li>
+                    <form method="POST" id="logout-form" action="{{ route('logout') }}">
+                        @csrf
+                    </form>
+                @else
+                    <li>
+                        <a class="dropdown-item" href="{{ Route::has('login') ? route('login') : url('auth/login-basic') }}">
+                            <i class='ti ti-login me-2'></i>
+                            <span class="align-middle">Login</span>
+                        </a>
+                    </li>
+                @endif
+            </ul>
+        </li>
   </ul>
 
 </aside>
