@@ -123,13 +123,17 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-
-                            <!-- Delete Form -->
-                            {{--<form action="{{ route('articles.destroy', $article->id) }}" method="POST" style="text-align: right;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>--}}
+                            <div class="col-12">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div></div>
+                                    <!-- Delete Form -->
+                                    <form action="{{ route('articles.destroy', $article->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
                             <form action="{{ route('articles.update', ['id' => $article->id]) }}" method="POST" class="row g-3" id="form" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
@@ -234,7 +238,16 @@
                                     </div>
                                 </div>
                                 <div class="col-12">
-                                    <button type="submit" name="submitButton" class="btn btn-primary">Create</button>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <button type="submit" name="submitButton" class="btn btn-primary">Create</button>
+
+                                        <!-- Delete Form -->
+                                        <form action="{{ route('authors.destroy', $author->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </form>
+                                    </div>
                                 </div>
                             </form>
                         </div>

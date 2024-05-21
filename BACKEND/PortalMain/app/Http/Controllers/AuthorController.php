@@ -76,11 +76,10 @@ class AuthorController extends Controller
      */
     public function show($id)
     {
-        //
-        $authors = Author::find($id);
+        $author = Author::find($id);
         $title = 'Author';
 
-        return view('authors.show', compact('authors', 'title'));
+        return view('authors.show', compact('author', 'title'));
     }
 
     /**

@@ -70,12 +70,6 @@
                   "slug": "subcategories.create"
               }
           ]
-      },
-    {
-      "url": "app/email",
-      "name": "Email",
-      "icon": "menu-icon tf-icons ti ti-mail",
-      "slug": "app-email"
-    }
+      }
   ]
 }
