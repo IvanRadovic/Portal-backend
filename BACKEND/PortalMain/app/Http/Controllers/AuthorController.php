@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Author;
+use Illuminate\Support\Facades\DB;
 
 class AuthorController extends Controller
 {
@@ -13,12 +14,21 @@ class AuthorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $authors = Author::all();
+        $authors = Author::withCount('articles');
+
+        if ($request->type) {
+            $authors = $authors->where('type', $request->type);
+        }
+
+        $authors = $authors->get();
+        $total = Author::count();
+
+        $types = Author::select(DB::raw('distinct(type) as name'))->get();
         $title = 'Authors';
 
-        return view('authors', compact('authors', 'title'));
+        return view('authors', compact('authors', 'title', 'types', 'total'));
     }
 
     /**
@@ -111,7 +121,8 @@ class AuthorController extends Controller
         $author->save();
 
          if($request->hasFile('cover')){
-              $author->getFirstMedia('cover')->delete();
+             if ($author->getFirstMedia('cover'))
+                $author->getFirstMedia('cover')->delete();
 
               $author->addMedia($request->file('cover'))
                      ->toMediaCollection('cover');

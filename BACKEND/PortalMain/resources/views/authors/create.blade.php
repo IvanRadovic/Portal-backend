@@ -6,8 +6,8 @@
 
 <div id="createCategory">
     <div class="modal-content" style="background-color: #f8f9fa; padding: 20px; border-radius: 10px;">
-        <h2 style="color: #6c757d;">Create Category</h2>
-        <form action="{{ route('authors.store') }}" method="POST" style="margin-top: 20px;">
+        <h2 style="color: #6c757d;">Create Author</h2>
+        <form action="{{ route('authors.store') }}" method="POST" style="margin-top: 20px;" enctype="multipart/form-data">
             @csrf
             <div class="mb-4" style="margin-bottom: 20px;">
                 <label for="name" class="block text-sm font-medium text-gray-700">Logo:</label>
@@ -25,8 +25,4 @@
         </form>
     </div>
 </div>
-
-       <script>
-            CKEDITOR.replace('content');
-       </script>
 @endsection

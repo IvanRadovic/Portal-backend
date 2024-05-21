@@ -86,6 +86,14 @@ class ArticalController extends Controller
 
         $article->save();
 
+        if($request->hasFile('cover')){
+            if ($article->getFirstMedia('cover'))
+                $article->getFirstMedia('cover')->delete();
+
+            $article->addMedia($request->file('cover'))
+                ->toMediaCollection('cover');
+        }
+
         return redirect('/articles/'.$article->id);
     }
 

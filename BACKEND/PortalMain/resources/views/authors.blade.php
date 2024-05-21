@@ -1,84 +1,47 @@
 @extends('layouts.layoutMaster')
 
 @section('content')
-<style>
-/* Modal Styles */
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed;
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
-}
-
-/* Modal Content */
-.modal-content {
-    background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 50%; /* Could be more or less, adjust as needed */
-}
-
-/* Close Button */
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-
- input[type="text"], textarea, select {
-        border: 1px solid #ccc;
-        margin-bottom: 10px;
-        padding: 10px;
-    }
-
-    label {
-        display: block;
-        margin-bottom: 5px;
-    }
-
-</style>
-
-    <div class="bg-gray-100 p-4 pb-4 mb-5 rounded h-screen">
-        <h1 class="mb-5">{{ $title }}</h1>
-        <div style=" display:flex; align-items:center; justify-content:center;">
-           <a href="{{ route('authors.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-             Create Author
-           </a>
-        </div>
-
-        @foreach($authors as $author)
-            <a href="{{ route('authors.show', ['id' => $author->id]) }}" class="p-4 mb-4 bg-white rounded shadow flex justify-between">
-                    <div style="width:100%; display:flex; justify-content:space-between; align-items:center;">
-                      <h2 class="text-xl font-bold mb-2">{{ $author->name }} {{ $author->lastname }}</h2>
+        <!-- Popular Product -->
+        <div class="col-md-12 col-xl-12 mb-4">
+            <div class="card h-100">
+                <div class="card-header d-flex justify-content-between">
+                    <div class="card-title m-0 me-2">
+                        <h5 class="m-0 me-2">Authors</h5>
+                        <small class="text-muted">Total {{ $total }} Authors</small>
                     </div>
-                </a>
-        @endforeach
-
-    </div>
-
-       <script>
-            CKEDITOR.replace('content');
-
-           function openModal() {
-               document.getElementById('createCategory').style.display = 'block';
-           }
-
-           function closeModal() {
-               document.getElementById('createCategory').style.display = 'none';
-           }
-       </script>
+                    <div class="dropdown">
+                        <button class="btn p-0" type="button" id="popularProduct" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="ti ti-dots-vertical ti-sm text-muted"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="popularProduct">
+                            @foreach($types as $type)
+                                <a class="dropdown-item" href="{{ url('authors') }}?type={{ $type->name }}">{{ $type->name }}</a>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <ul class="p-0 m-0">
+                        @foreach($authors as $author)
+                            <li class="d-flex mb-4 pb-1" onclick="window.location = '{{ route('authors.show', ['id' => $author->id]) }}'">
+                                <div class="me-3">
+                                    @foreach($author->getMedia('cover') as $file)
+                                        <img src="{{ $file->getUrl() }}" alt="Author" class="rounded" width="46">
+                                    @endforeach
+                                </div>
+                                <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                    <div class="me-2">
+                                        <h6 class="mb-0">{{ $author->name }} {{ $author->lastname }}</h6>
+                                        <small class="text-muted d-block">Tip: {{ $author->type }}</small>
+                                    </div>
+                                    <div class="user-progress d-flex align-items-center gap-1">
+                                        <p class="mb-0 fw-medium">{{ $author->articles_count }}</p>
+                                    </div>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        </div>
 @endsection

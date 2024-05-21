@@ -47,7 +47,9 @@ class ArticalController extends Controller
        }
 
        // Execute the query and paginate the results
-       $articles = $query->where('is_published', 1)->paginate($perPage);
+       $articles = $query->where('is_published', 1)
+           ->orderBy('date', 'desc')
+           ->paginate($perPage);
 
        // Return the results as a JSON response
        return response()->json($articles);

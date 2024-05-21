@@ -64,5 +64,8 @@ class CategoryController extends Controller
       return response()->json($category);
   }
 
+  public function sliderArticles() {
+
+  }
 
 }

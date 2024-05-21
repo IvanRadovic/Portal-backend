@@ -15,4 +15,7 @@ class Author extends Model implements HasMedia
 
        protected $guarded = [];
 
+       public function articles() {
+           return $this->hasMany('\App\Models\Articles', 'author_id', 'id');
+       }
 }
