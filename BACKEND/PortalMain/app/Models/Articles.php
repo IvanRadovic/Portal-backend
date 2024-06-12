@@ -25,4 +25,10 @@ class Articles extends Model implements HasMedia
             return $this->hasOne(Subcategory::class, 'id', 'subcategory_id');
         }
 
+    public function media(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    {
+        return $this->morphMany(\Spatie\MediaLibrary\MediaCollections\Models\Media::class, 'model');
+    }
+
+
 }

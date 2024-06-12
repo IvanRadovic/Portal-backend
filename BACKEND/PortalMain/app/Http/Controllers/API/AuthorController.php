@@ -47,17 +47,27 @@ class AuthorController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        $author = Author::with('media')->find($id);
+{
+    $author = Author::with('media')->find($id);
 
-        $articles = Articles::where('author_id', $id)
-                ->where('is_published', 1)
-                ->orderBy('date', 'desc')->take(3)->get();
+    $articles = Articles::where('author_id', $id)
+        ->where('is_published', 1)
+        ->orderBy('date', 'desc')->take(3)->get();
 
-        $author->artices = $articles;
+    $articles->load([
+        'categories' => function ($query) {
+            $query->select('id', 'name');
+        },
+        'subcategories' => function ($query) {
+            $query->select('id', 'name');
+        },
+        'media'
+    ]);
 
-        return response()->json($author);
-    }
+    $author->articles = $articles;
+
+    return response()->json($author);
+}
 
     /**
      * Show the form for editing the specified resource.
