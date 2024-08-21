@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\ArticalController;
 use \App\Http\Controllers\API\CategoryController;
 use \App\Http\Controllers\API\AuthorController;
+use \App\Http\Controllers\API\ContactController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -32,6 +33,8 @@ Route::delete('/articles/{id}', [ArticalController::class, 'destroy']);
 
 Route::get('/authors', [AuthorController::class, 'index']);
 Route::get('/authors/{id}', [AuthorController::class, 'show']);
+
+Route::post('/contact', [ContactController::class, 'send']);
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
