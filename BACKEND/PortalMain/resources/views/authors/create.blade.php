@@ -133,7 +133,7 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="">
-                                        <label for="type" class="block text-sm font-medium text-gray-700">Type of author:</label>
+                                        <label for="type" class="block text-sm font-medium text-gray-700">Foto credits</label>
                                         <input type="text" id="type" name="type" class="form-control" required>
                                     </div>
                                 </div>

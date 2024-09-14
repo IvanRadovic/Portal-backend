@@ -127,7 +127,7 @@
                                     <div class="col-12">
                                         <div class="">
                                             <label for="date" class="block text-sm font-medium text-gray-700">Pushed at:</label>
-                                            <input type="date" id="date" name="date" class="form-control" required >
+                                            <input type="date" id="date" name="date" class="form-control" required>
                                         </div>
                                     </div>
 
@@ -141,7 +141,7 @@
                                     <div class="col-12">
                                         <div class="">
                                             <label for="subtitle" class="block text-sm font-medium text-gray-700">Subtitle:</label>
-                                            <input type="text" id="subtitle" name="subtitle" class="form-control" required>
+                                            <input type="text" id="subtitle" name="subtitle" class="form-control">
                                         </div>
                                     </div>
 

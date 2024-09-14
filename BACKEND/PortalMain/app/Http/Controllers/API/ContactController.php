@@ -25,7 +25,7 @@ class ContactController extends Controller
         $email = $validatedData['email'];
         $messages = $validatedData['messages'];
 
-        Mail::to('iradoviic@gmail.com')->send(new ContactFormMailable($name, $surname, $email, $messages));
+        Mail::to('casopisi.odzivi@gmail.com')->send(new ContactFormMailable($name, $surname, $email, $messages));
 
         return response()->json(['message' => 'Email successfully sent']);
     }
